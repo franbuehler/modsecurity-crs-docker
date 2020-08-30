@@ -9,11 +9,11 @@ jobs:
         - 3.3-apache
         - 3.3-nginx
     steps:
-#      - uses: actions/checkout@v1
+      - uses: actions/checkout@v1
 
-#      - name: Build ${{ matrix.image }}
-#        run: docker build . -f ${{ matrix.image }}/Dockerfile
-#             --tag owasp/modsecurity-crs:${{ matrix.image }}
+      - name: Build ${{ matrix.image }}
+        run: docker build . -f ${{ matrix.image }}/Dockerfile
+             --tag owasp/modsecurity-crs:${{ matrix.image }}
 #             --tag owasp/modsecurity-crs:$(echo ${{ matrix.image }} | sed 's/.*-//')
 #
 #      - name: Set tag var
