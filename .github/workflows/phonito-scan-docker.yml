@@ -3,18 +3,28 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+        - 3.3-apache
+        - 3.3-nginx
     steps:
-      - uses: actions/checkout@v1
+#      - uses: actions/checkout@v1
 
-      - name: Set tag var
-        id: vars
-        run: echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
-
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag myapp:${{ steps.vars.outputs.docker_tag }}
+#      - name: Build ${{ matrix.image }}
+#        run: docker build . -f ${{ matrix.image }}/Dockerfile
+#             --tag owasp/modsecurity-crs:${{ matrix.image }}
+#             --tag owasp/modsecurity-crs:$(echo ${{ matrix.image }} | sed 's/.*-//')
+#
+#      - name: Set tag var
+#        id: vars
+#        run: echo ::set-output name=docker_tag::$(echo ${GITHUB_REF} | cut -d'/' -f3)-${GITHUB_SHA}
+#
+#      - name: Build the Docker image
+#        run: docker build . --file Dockerfile --tag myapp:${{ steps.vars.outputs.docker_tag }}
 
       - name: Scan with Phonito Security
         uses: phonito/phonito-scanner-action@master
         with:
-          image: myapp:${{ steps.vars.outputs.docker_tag }}
+          image: owasp/modsecurity-crs:${{ matrix.image }}
           phonito-token: '${{ secrets.PHONITO_TOKEN }}'
